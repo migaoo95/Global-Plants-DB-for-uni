@@ -21,7 +21,7 @@ if (mysqli_num_rows($drop2) > 0) {
 <form action="gHouse.php" method="post">
     <!-- GET ID INFORMATUON -->
 
-    <select name="id" id="">
+    <select name="id" id="ss">
         <?php
         require('control/emp.dbh.php');
         // Query to populate dropdown
