@@ -24,6 +24,11 @@ error_reporting(E_ERROR | E_PARSE);
     <div id="container" class="container-sm">
         <a href="nav.php"><input type="button" value="Go back" style="float:right; color:red;"></a>
         <h1 class="h1">Global Plants</h1>
+        <h6>Please select a plant id and insert details of complete shift</h6>
+        <div class="span">
+            <span style="padding-right: 120px; padding-left:35px;">Seeding</span><span style="display: inline;padding-right:110px;">Watering</span><span>Harvesting</span>
+        </div>
+
         <div class="row">
             <div class="col-xl">
                 <div class="form">
@@ -50,7 +55,7 @@ error_reporting(E_ERROR | E_PARSE);
                             }
                             ?>
 
-                            <input type="date" name="planting" placeholder="planting">
+                            <input type="date" name="planting" id="planting" placeholder="planting">
                             <input type="date" name="watering" placeholder="watering">
                             <input type="date" name="harvest" placeholder="harvesting">
                             <input type="submit" name="" id="" value="submit">
@@ -95,7 +100,7 @@ error_reporting(E_ERROR | E_PARSE);
          WHERE green_house_id = '$value' ";
                             }
                             if (mysqli_query($conn, $sql)) {
-                                echo "Records added successfully.";
+                                // echo "Records added successfully.";
                             } else {
 
                                 echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
@@ -116,7 +121,7 @@ error_reporting(E_ERROR | E_PARSE);
 
                     // Sql query 
                     $query = "SELECT greenHouse.green_house_id,greenHouse.seeding_date,greenHouse.watering_date,greenHouse.harvest_date, plants.plant_name FROM greenHouse
-                    INNER JOIN plants ON greenHouse.green_house_id = plants.plant_gHouse_id
+                    INNER JOIN plants ON greenHouse.green_house_id = plants.plant_gHouse_id ORDER BY greenHouse.green_house_id ASC
                      ";
                     // Run query
                     $result2 = mysqli_query($conn, $query);

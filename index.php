@@ -20,7 +20,7 @@ if (isset($_POST['name']) && isset($_POST['pass'])) {
         header("Location: nav.php");
         die();
     } else if ($_POST['name'] == 'Admin' && $_POST['pass'] == 'Admin123') {
-        header("Location: admin.php");
+        header("Location: navA.php");
         die();
     } else {
         echo "<script type='text/javascript'>alert('Wrong Details try again')</script>";

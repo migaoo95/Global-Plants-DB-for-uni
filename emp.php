@@ -2,7 +2,7 @@
 <?php
 require('control/emp.dbh.php');
 echo "hello emp";
-error_reporting(E_ERROR | E_PARSE);
+// error_reporting(E_ERROR | E_PARSE);
 // Get the form value
 $employee = $_POST["name"];
 //Clean any special characters 
