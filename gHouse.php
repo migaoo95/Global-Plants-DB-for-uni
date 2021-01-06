@@ -39,7 +39,10 @@ error_reporting(E_ERROR | E_PARSE);
                             <?php
                             require('control/emp.dbh.php');
                             // Query to populate dropdown
-                            $get_make = "SELECT green_house_id FROM greenHouse WHERE seeding_date IS NULL OR watering_date IS NULL OR harvest_date IS NULL;";
+                            // VIEWS
+                            // CREATE VIEWS g_house_id_view AS 
+                            // SELECT green_house_id FROM greenHouse WHERE seeding_date IS NULL OR watering_date IS NULL OR harvest_date IS NULL;
+                            $get_make = "SELECT * FROM g_house_id_view;";
 
                             $value = $_POST['id'];
                             $dropdown = mysqli_query($conn, $get_make);
@@ -117,12 +120,12 @@ error_reporting(E_ERROR | E_PARSE);
                     </form>
                     <!-- OUTPUT DATA***************************** -->
                     <?php
-                    //Procedural myqli
-
+                    //G HOUSE VIEW ALL
+                    // CREATE VIEW gHouse_all_view AS
+                    // SELECT greenHouse.green_house_id,greenHouse.seeding_date,greenHouse.watering_date,greenHouse.harvest_date, plants.plant_name FROM greenHouse
+                    // INNER JOIN plants ON greenHouse.green_house_id = plants.plant_gHouse_id ORDER BY greenHouse.green_house_id ASC
                     // Sql query 
-                    $query = "SELECT greenHouse.green_house_id,greenHouse.seeding_date,greenHouse.watering_date,greenHouse.harvest_date, plants.plant_name FROM greenHouse
-                    INNER JOIN plants ON greenHouse.green_house_id = plants.plant_gHouse_id ORDER BY greenHouse.green_house_id ASC
-                     ";
+                    $query = "SELECT * FROM gHouse_all_view";
                     // Run query
                     $result2 = mysqli_query($conn, $query);
                     //Output result

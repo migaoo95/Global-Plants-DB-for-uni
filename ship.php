@@ -13,11 +13,12 @@ echo "hello emp";
 
 //SQL query
 // $sql = "SELECT * FROM employee WHERE firstName LIKE '$employee%';";
-$sql = "SELECT orders.order_id AS orderNumber,CONCAT_WS(' ', customer.firstName,customer.lastName) AS customerName,
-orders.order_date,orders.order_time , shipment.ship_status,shipment.ship_date,
-shipment.ship_time FROM company INNER JOIN customer ON company.company_id = customer.customer_company_id
-INNER JOIN orders ON customer.customer_id = orders.order_customer_id INNER JOIN shipment ON orders.order_shippment_id = shipment.shipment_id
-";
+// CREATE VIEW orders_shippment_emp_view AS 
+// SELECT orders.order_id AS orderNumber,CONCAT_WS(' ', customer.firstName,customer.lastName) AS customerName,
+// orders.order_date,orders.order_time , shipment.ship_status,shipment.ship_date,
+// shipment.ship_time, shipment.shipment_id FROM company INNER JOIN customer ON company.company_id = customer.customer_company_id
+// INNER JOIN orders ON customer.customer_id = orders.order_customer_id INNER JOIN shipment ON orders.order_shippment_id = shipment.shipment_id
+$sql = "SELECT * FROM orders_shippment_emp_view";
 // Store my results
 $result = mysqli_query($conn, $sql);
 ?>
@@ -45,21 +46,11 @@ $result = mysqli_query($conn, $sql);
                     <form action="ship.php" method="post" name="formm">
                         <select name="id" id="ss">
                             <?php
-
-                            // Query to populate dropdown
-
-
-                            $sql2 = "SELECT orders.order_id AS orderNo,shipment_id, CONCAT_WS(' ', customer.firstName,customer.lastName) AS customerName,
-orders.order_date,orders.order_time , shipment.ship_status,shipment.ship_date,
-shipment.ship_time FROM company INNER JOIN customer ON company.company_id = customer.customer_company_id
-INNER JOIN orders ON customer.customer_id = orders.order_customer_id INNER JOIN shipment ON orders.order_shippment_id = shipment.shipment_id WHERE shipment.ship_status IS NULL";
-
-
+                            //  SAME VIEW 
+                            $sql2 = "SELECT * FROM orders_shippment_emp_view WHERE ship_status IS NULL";
                             $dropdown = mysqli_query($conn, $sql2);
-
                             if (mysqli_num_rows($dropdown) > 0) {
                                 while ($row = mysqli_fetch_assoc($dropdown)) {
-
                             ?>
                                     <option value=<?php echo $row['shipment_id']; ?>>
                                         <?php echo $row['shipment_id']; ?>
@@ -78,14 +69,8 @@ INNER JOIN orders ON customer.customer_id = orders.order_customer_id INNER JOIN 
                         $sql3 = "UPDATE shipment SET ship_status='shipped',
                                 ship_date='$date',ship_time = '$time'
                                 WHERE shipment_id = '$value'";
+                        mysqli_query($conn, $sql3)
 
-
-                        if (mysqli_query($conn, $sql3)) {
-                            // echo "Records added successfully.";
-                        } else {
-
-                            echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
-                        }
                         ?>
                         <input type="submit">
                     </form>

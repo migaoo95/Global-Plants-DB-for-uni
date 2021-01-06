@@ -2,13 +2,7 @@
 <?php
 require('control/admin.dbh.php');
 
-
 error_reporting(E_ERROR | E_PARSE);
-
-$test2 = "SELECT * FROM jobAllocation WHERE all_emp_id = $value"
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,12 +45,16 @@ $test2 = "SELECT * FROM jobAllocation WHERE all_emp_id = $value"
                         $sqlInsert = "INSERT INTO employee (firstName,lastName,address1,address2,city,postCode,email,phoneNumber) VALUES
                         ('$fName','$lName','$add1','$add2','$city','$pCode','$email','$pNo');
                         ";
+
+
                         if (mysqli_query($conn, $sqlInsert)) {
                             // echo "Records added successfully.";
                         } else {
-                            echo $removeName;
-                            echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+
+                            // echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
                         }
+
+
                         ?>
                         <div class="show" id="show" style="display:none;">
                             <h5>New Employee Form</h5>
@@ -72,20 +70,22 @@ $test2 = "SELECT * FROM jobAllocation WHERE all_emp_id = $value"
                         </div>
                     </form>
 
-                    <!--Remove Shows and hides -->
-
+                    <!--Remove Employee Shows and hides -->
                     <div class="show2" id="show2" style="display:none;">
+                        <h5>Select Employee that you want to remove</h5>
                         <form action="empA.php" method="post">
                             <select name="emp" id="ss">
                                 <option value="" disabled selected>Find your name</option>
                                 <?php
-                                $sql2 = "SELECT firstName, employee_id FROM employee WHERE firstName !=' ' ";
+                                // VIEW FOR ALL EMPLOYEES
+                                $sql2 = "SELECT * FROM admin_emp_view";
                                 if (mysqli_query($conn, $sql2)) {
                                     // echo "Records added successfully.";
                                 } else {
 
                                     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
                                 }
+                                $removeName = $_POST['emp'];
                                 $dropdown = mysqli_query($conn, $sql2);
                                 if (mysqli_num_rows($dropdown) > 0) {
 
@@ -93,31 +93,37 @@ $test2 = "SELECT * FROM jobAllocation WHERE all_emp_id = $value"
 
                                 ?>
                                         <option value=<?php echo $row['employee_id']; ?>>
-                                            <?php echo $row['firstName']; ?>
+                                            <?php echo $row['empName']; ?>
                                         </option>
                                 <?php
                                     }
                                 }
 
 
+                                if (mysqli_query($conn, $sqlRemove)) {
+                                } else {
+
+                                    echo "Some Error $sql. " . mysqli_error($conn);
+                                }
                                 ?>
                                 <?php
+                                // DELETE INFORMATION FROM VIEW
+                                $sqlRemove = "DELETE FROM admin_emp_view WHERE employee_id='$removeName'";
+                                // DELETE INFORMATION FROM JOB ALLOC VIEW
+                                // CREATE VIEW jobAll_admin_view AS 
+                                // SELECT * FROM jobAllocation
+                                $removeJobAll = "DELETE FROM jobAll_admin_view WHERE all_emp_id='$removeName'";
 
-
-                                $removeName = $_POST['emp'];
-                                $sqlRemove = "DELETE FROM employee WHERE employee_id='$removeName'";
-                                $removeJobAll = "DELETE FROM jobAllocation WHERE all_emp_id='$removeName'";
-                                echo $removeName;
 
                                 if (mysqli_query($conn, $removeJobAll)) {
                                 } else {
 
-                                    echo "CHUJjjjjj $sql. " . mysqli_error($conn);
+                                    echo "SOme Error $sql. " . mysqli_error($conn);
                                 }
                                 if (mysqli_query($conn, $sqlRemove)) {
                                 } else {
 
-                                    echo "CHUJjjjjj $sql. " . mysqli_error($conn);
+                                    echo "Some Error $sql. " . mysqli_error($conn);
                                 }
 
 
@@ -130,10 +136,12 @@ $test2 = "SELECT * FROM jobAllocation WHERE all_emp_id = $value"
                     <!-- Display data  -->
                     <?php
                     // Employee and Job Query
-                    $sql = "SELECT employee_id,CONCAT_WS(' ',firstName,lastName) AS empName,CONCAT_WS(',',address1,address2) AS address12,phoneNumber,email,postCode FROM employee 
-       WHERE firstName !=' ' ORDER BY employee_id ASC";
-                    $result = mysqli_query($conn, $sql);
 
+                    // CREATE VIEW admin_emp_view AS 
+                    // SELECT employee_id,CONCAT_WS(' ',firstName,lastName) AS empName,CONCAT_WS(',',address1,address2) AS address12,phoneNumber,email,postCode,city FROM employee 
+                    // WHERE firstName !=' ' ORDER BY employee_id ASC
+                    $sql = "SELECT * FROM admin_emp_view";
+                    $result = mysqli_query($conn, $sql);
                     // Display employee table
 
                     if (mysqli_num_rows($result) > 0) {
@@ -151,19 +159,25 @@ $test2 = "SELECT * FROM jobAllocation WHERE all_emp_id = $value"
                         while ($row = mysqli_fetch_assoc($result)) {
 
                             echo "<tr>";
-
                             echo "<td>" . $row["empName"] . "</td>";
                             echo "<td>" . $row["address12"] . "</td>";
                             echo "<td>" . $row["postCode"] . "</td>";
                             echo "<td>" . $row["phoneNumber"] . "</td>";
                             echo "<td>" . $row["email"] . "</td>";
                             echo "</tr>";
+                            $newVal = $row["employee_id"];
+                            // INSERT INTO JOB ALL VIEW
+                            $sqlInsert2 = "INSERT INTO jobAll_admin_view(all_emp_id) VALUES ('$newVal')";
+                            if (mysqli_query($conn, $sqlInsert2)) {
+                            } else {
+
+                                // echo "SOme Error $sql. " . mysqli_error($conn);
+                            }
                         }
                         echo "</table>";
                     } else {
                         echo "No results";
                     }
-
                     mysqli_close($conn);
                     ?>
                 </div>

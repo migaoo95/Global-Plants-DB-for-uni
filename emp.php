@@ -2,17 +2,20 @@
 <?php
 require('control/emp.dbh.php');
 echo "hello emp";
-// error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 // Get the form value
 $employee = $_POST["name"];
 //Clean any special characters 
 $employee = mysqli_real_escape_string($conn, $employee);
-//SQL query
-// $sql = "SELECT * FROM employee WHERE firstName LIKE '$employee%';";
-$sql = "SELECT employee.firstName,employee.lastName,job.job_name,workLocation.location_name FROM employee 
-   INNER JOIN jobAllocation ON employee.employee_id = jobAllocation.all_emp_id
-   INNER JOIN job ON jobAllocation.all_job_id = job.job_id
-   INNER JOIN workLocation ON jobAllocation.all_location_id = workLocation.location_id WHERE employee.firstName LIKE '$employee%';";
+
+// ********FOR DOCUMENTATION VIEWS
+// CREATE VIEW Emp_Details_For_Emp AS 
+// SELECT employee.employee_id,employee.firstName,employee.lastName,job.job_name,workLocation.location_name FROM employee 
+//    INNER JOIN jobAllocation ON employee.employee_id = jobAllocation.all_emp_id
+//    INNER JOIN job ON jobAllocation.all_job_id = job.job_id
+//    INNER JOIN workLocation ON jobAllocation.all_location_id = workLocation.location_id 
+// ********VIEW QUERY
+$sql = "SELECT * FROM emp_details_for_emp WHERE firstName LIKE '$employee%'";
 // Store my results
 $result = mysqli_query($conn, $sql);
 ?>
