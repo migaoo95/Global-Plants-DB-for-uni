@@ -1,28 +1,35 @@
 <!-- Employee access to the database  -->
-
 <a href="index.php">
     <h7>Back To Login Page</h7>
 </a>
 
-
 <?php
-require('control/emp.dbh.php');
-echo "hello emp";
+require('control/admin.dbh.php');
+echo "hello Admin";
 error_reporting(E_ERROR | E_PARSE);
 if ($_POST["select"] == "employee") {
-    header("Location: emp.php");
+    header("Location: empA.php");
     die();
-} else if ($_POST["select"] == "stock") {
-    header("Location: stock.php");
+} else if ($_POST["select"] == "empAlloc") {
+    header("Location: alloc.php");
     die();
-} else if ($_POST["select"] == "gHouse") {
-    header("Location: gHouse.php");
+} else if ($_POST["select"] == "createJob") {
+    header("Location: createJob.php");
     die();
-} else if ($_POST["select"] == "jobs") {
-    header("Location: jobs.php");
+} else if ($_POST["select"] == "supp") {
+    header("Location: supp.php");
     die();
-} else if ($_POST["select"] == "ship") {
-    header("Location: ship.php");
+} else if ($_POST["select"] == "os") {
+    header("Location: os.php");
+    die();
+} else if ($_POST["select"] == "stockA") {
+    header("Location: stockA.php");
+    die();
+} else if ($_POST["select"] == "comp") {
+    header("Location: comp.php");
+    die();
+} else if ($_POST["select"] == "est") {
+    header("Location: estimate.php");
     die();
 }
 ?>
@@ -45,13 +52,17 @@ if ($_POST["select"] == "employee") {
         <div class="row">
             <!-- collumn one -->
             <div class="col-xl">
-                <form action="nav.php" method="post">
+                <form action="navA.php" method="post">
                     <select name="select" id="">
-                        <option value="employee">Employee</option>
-                        <option value="stock">Stock Depo</option>
-                        <option value="gHouse">Greeh House</option>
-                        <option value="jobs">Jobs</option>
-                        <option value="ship">Shippment</option>
+                        <option value="" disabled selected> Select Action</option>
+                        <option value="employee">Manage Employees</option>
+                        <option value="empAlloc">Job Allocation</option>
+                        <option value="createJob">Create and Remove Jobs</option>
+                        <option value="supp">Suppliers</option>
+                        <option value="os">Orders and Shippments</option>
+                        <option value="stockA">Stock Managment</option>
+                        <option value="comp">Companies And Customers</option>
+                        <option value="est">Estimate Orders</option>
 
                     </select>
                     <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>

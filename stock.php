@@ -7,11 +7,15 @@ error_reporting(E_ERROR | E_PARSE);
 $plant = $_POST["name"];
 //Clean any special characters 
 $plant = mysqli_real_escape_string($conn, $plant);
-//SQL query
-// $sql = "SELECT * FROM employee WHERE firstName LIKE '$employee%';";
-$sql = "SELECT plants.plant_name,stockDepo.quantity,stockDepo.unit_retail_price FROM plants
-INNER JOIN stockDepo ON plants.plant_id = stockDepo.stockDepo_id WHERE plants.plant_name LIKE '$plant%'";
-$sql2 = "SELECT SUM(stockDepo.quantity) AS quantityy FROM stockDepo";
+// STOCK VIEW DOCUMANTATION
+// CREATE VIEW stock_emp_view AS
+// SELECT plants.plant_name,stockDepo.quantity,stockDepo.unit_retail_price FROM plants
+// INNER JOIN stockDepo ON plants.plant_id = stockDepo.stockDepo_id
+$sql = " SELECT * FROM stock_emp_view  WHERE plant_name LIKE '$plant%'";
+// STOCK SUM VIEW 
+// CREATE VIEW stock_qty_view AS 
+// SELECT SUM(stockDepo.quantity) AS quantityy FROM stockDepo
+$sql2 = "SELECT * FROM stock_qty_view";
 // Store my results
 $result = mysqli_query($conn, $sql);
 $result2 = mysqli_query($conn, $sql2);
@@ -43,6 +47,10 @@ $result2 = mysqli_query($conn, $sql2);
                 <div class="form">
                     <form action="stock.php" method="post">
                         <input type="text" name="name" class="form" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter plant name">
+                        <Label>Show Total Quantity</Label>
+                        <input type="checkbox" name="check">
+
+
                         <input type="submit" value="Submit / Refresh"></br>
                     </form>
                     <!-- Display data  -->
@@ -64,6 +72,15 @@ $result2 = mysqli_query($conn, $sql2);
                                 echo "</tr>";
                             }
                             echo "</table>";
+                            if (isset($_POST['check'])) {
+                                if (mysqli_num_rows($result2) > 0) {
+
+                                    while ($roww = mysqli_fetch_assoc($result2)) {
+                                        echo "<div style='border:solid;width:200px;height:30px;background-color:#32a0a8;margin:10px;'>" . "<p> Total Plants in Stock " .
+                                            $roww["quantityy"] . "</p>" . "</div>";
+                                    }
+                                }
+                            }
                         } else {
                             echo "No results";
                         }
@@ -88,13 +105,7 @@ $result2 = mysqli_query($conn, $sql2);
                         } else {
                             echo "No results";
                         }
-                        if (mysqli_num_rows($result2) > 0) {
 
-                            while ($roww = mysqli_fetch_assoc($result2)) {
-                                echo "<div style='border:solid;width:200px;height:30px;background-color:#32a0a8;margin:10px;'>" . "<p> Total Plants in Stock " .
-                                    $roww["quantityy"] . "</p>" . "</div>";
-                            }
-                        }
                         mysqli_close($conn);
                     }
 
