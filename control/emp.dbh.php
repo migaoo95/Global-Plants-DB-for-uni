@@ -1,18 +1,18 @@
-<?php 
+<?php
 // Procedural mysqli
 
 // Connection details
 $host = 'localhost';
-$user = 'Emp';
-$pass = 'Emp123';
+session_start();
+$user = $_SESSION['user'];
+$pass = $_SESSION['pass'];
 $dbms = 'global_plants';
 
 // Create connection 
-$conn = mysqli_connect($host,$user,$pass,$dbms); 
+$conn = mysqli_connect($host, $user, $pass, $dbms);
 // Check connection 
-if(!$conn) {
+if (!$conn) {
     die('Connection Error: ' . mysqli_connect_error());
 }
 // Optional 
 echo 'Connection Established';
-?>
