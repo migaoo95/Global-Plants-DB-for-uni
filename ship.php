@@ -18,7 +18,7 @@ echo "hello emp";
 // orders.order_date,orders.order_time , shipment.ship_status,shipment.ship_date,
 // shipment.ship_time, shipment.shipment_id FROM company INNER JOIN customer ON company.company_id = customer.customer_company_id
 // INNER JOIN orders ON customer.customer_id = orders.order_customer_id INNER JOIN shipment ON orders.order_shippment_id = shipment.shipment_id
-$sql = "SELECT * FROM orders_shippment_emp_view";
+$sql = "SELECT * FROM orders_shippment_emp_view  ";
 // Store my results
 $result = mysqli_query($conn, $sql);
 ?>
@@ -47,7 +47,7 @@ $result = mysqli_query($conn, $sql);
                         <select name="id" id="ss">
                             <?php
                             //  SAME VIEW 
-                            $sql2 = "SELECT * FROM orders_shippment_emp_view WHERE ship_status IS NULL";
+                            $sql2 = "SELECT * FROM orders_shippment_emp_view WHERE ship_status IS NULL AND ship_date IS NULL";
                             $dropdown = mysqli_query($conn, $sql2);
                             if (mysqli_num_rows($dropdown) > 0) {
                                 while ($row = mysqli_fetch_assoc($dropdown)) {
@@ -60,38 +60,44 @@ $result = mysqli_query($conn, $sql);
                             }
                             ?>
                         </select>
-                        <?php
-                        $value = $_POST['id'];
-                        $date = date("Y-m-d");
-                        $time = date("H:i:s");
-                        $date = mysqli_real_escape_string($conn, $date);
 
-                        $sql3 = "UPDATE shipment SET ship_status='shipped',
-                                ship_date='$date',ship_time = '$time'
-                                WHERE shipment_id = '$value'";
-                        mysqli_query($conn, $sql3)
-
-                        ?>
+                        Double click to confirm
                         <input type="submit">
                     </form>
                     <!-- Display data  -->
                     <?php
 
+
+
+                    if (isset($_POST['id'])) {
+                        $value = $_POST['id'];
+                        $date = date("Y-m-d");
+                        $time = date("H:i:s");
+                        $date = mysqli_real_escape_string($conn, $date);
+                        $sql3 = "UPDATE shipment SET ship_status='shipped',
+        ship_date='$date',ship_time = '$time'
+        WHERE shipment_id = '$value'";
+                        mysqli_query($conn, $sql3);
+                        mysqli_close($conn);
+                    }
+
+
                     if (mysqli_num_rows($result) > 0) {
                         echo "<table>
-    <tr>
-     <th>Order No.</th>
-     <th>Customer Name</th>
-     <th>Order Date</th>
-     <th>Order Time</th>
-     <th>Shippment Status</th>
-     <th>Shippment Date</th>
-     <th>Shippment Time</th>
-     ";
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Customer Name</th>
+                            <th>Order Date</th>
+                            <th>Order Time</th>
+                            <th>Shippment Status</th>
+                            <th>Shippment Date</th>
+                            <th>Shippment Time</th>
+                            ";
 
                         while ($row = mysqli_fetch_assoc($result)) {
 
-                            echo "<tr>";
+                            echo "
+                        <tr>";
                             echo "<td>" . $row["orderNumber"] . "</td>";
                             echo "<td>" . $row["customerName"] . "</td>";
                             echo "<td>" . $row["order_date"] . "</td>";
@@ -101,9 +107,10 @@ $result = mysqli_query($conn, $sql);
                             echo "<td>" . $row["ship_time"] . "</td>";
                             echo "</tr>";
                         }
-                        echo "</table>";
+                        echo "
+                    </table>";
                     } else {
-                        echo "no results";
+                        echo "No results";
                     }
                     mysqli_close($conn);
 

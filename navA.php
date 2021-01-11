@@ -1,4 +1,8 @@
 <!-- Employee access to the database  -->
+<a href="index.php">
+    <h7>Back To Login Page</h7>
+</a>
+
 <?php
 require('control/admin.dbh.php');
 echo "hello Admin";

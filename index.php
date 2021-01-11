@@ -1,31 +1,27 @@
 <?php
 require('control/dbh.php');
 
-if (isset($_POST['name']) && isset($_POST['pass'])) {
+error_reporting(E_ERROR | E_PARSE);
 
-    // Assigning POST values to variables.
-    $username = $_POST['name'];
-    $password = $_POST['pass'];
-
-
-    // CHECK FOR THE RECORD FROM TABLE
-    $query = "SELECT * FROM mysql.user WHERE User='$username' and Password='$password'";
-
-    $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
-    $count = mysqli_num_rows($result);
-    $hash = '*4AF6A605951EFE46702538F86F7611FBC34EAA43';
-
-
-    if ($_POST['name'] == 'Emp' && $_POST['pass'] == 'Emp123') {
-        header("Location: nav.php");
-        die();
-    } else if ($_POST['name'] == 'Admin' && $_POST['pass'] == 'Admin123') {
-        header("Location: navA.php");
-        die();
-    } else {
-        echo "<script type='text/javascript'>alert('Wrong Details try again')</script>";
-        //echo "Invalid Login Credentials";
-    }
+// Assigning POST values to variables.
+$username = $_POST['name'];
+$password = $_POST['pass'];
+session_start();
+$_SESSION['user'] = $username;
+$_SESSION['pass'] = $password;
+if ($_POST['name'] == 'EmpG' && $_POST['pass'] == 'EmpG') {
+    header("Location: nav.php");
+    die();
+}
+if ($_POST['name'] == 'Emp' && $_POST['pass'] == 'Emp') {
+    header("Location: nav.php");
+    die();
+} else if ($_POST['name'] == 'Admin' && $_POST['pass'] == 'Admin') {
+    header("Location: navA.php");
+    die();
+} else {
+    echo "<script type='text/javascript'>alert('Wrong Details try again')</script>";
+    //echo "Invalid Login Credentials";
 }
 ?>
 <!DOCTYPE html>
@@ -44,7 +40,7 @@ if (isset($_POST['name']) && isset($_POST['pass'])) {
     <div class="container-sm">
         <h1 class="h1">Global Plants</h1>
         <!-- FORM START -->
-        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+        <form action="index.php" method="post">
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Username</label>
@@ -64,14 +60,17 @@ if (isset($_POST['name']) && isset($_POST['pass'])) {
         <div class="row">
             <div class="col">
                 <h5>Employee</h5>
-                <p>Username: Emp Password: Emp123</p>
+                <p>Username: Emp / Password: Emp</p>
+                <h5>New Employee</h5>
+                <p>Username: EmpG / Password: EmpG</p>
 
             </div>
             <div class="col">
                 <h5>Admin</h5>
-                <p>Username: Admin Password: Admin123</p>
+                <p>Username: Admin Password: Admin</p>
 
             </div>
+
         </div>
     </div>
 </body>

@@ -42,7 +42,8 @@ error_reporting(E_ERROR | E_PARSE);
                         $pCode = $_POST['pCode'];
                         $email = $_POST['email'];
                         $pNo = $_POST['pNo'];
-                        $sqlInsert = "INSERT INTO employee (firstName,lastName,address1,address2,city,postCode,email,phoneNumber) VALUES
+                        $sqlInsert = "INSERT INTO employee (firstName,lastName,address1,address2,city,postCode,email,phoneNumber)
+                        VALUES
                         ('$fName','$lName','$add1','$add2','$city','$pCode','$email','$pNo');
                         ";
 
@@ -109,11 +110,11 @@ error_reporting(E_ERROR | E_PARSE);
                                 <?php
                                 // DELETE INFORMATION FROM VIEW
                                 $sqlRemove = "DELETE FROM admin_emp_view WHERE employee_id='$removeName'";
+
+                                $removeJobAll = "DELETE FROM jobAll_admin_view WHERE all_emp_id='$removeName'";
                                 // DELETE INFORMATION FROM JOB ALLOC VIEW
                                 // CREATE VIEW jobAll_admin_view AS 
                                 // SELECT * FROM jobAllocation
-                                $removeJobAll = "DELETE FROM jobAll_admin_view WHERE all_emp_id='$removeName'";
-
 
                                 if (mysqli_query($conn, $removeJobAll)) {
                                 } else {

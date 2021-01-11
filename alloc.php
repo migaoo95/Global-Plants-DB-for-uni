@@ -77,7 +77,7 @@ if (isset($_POST['emp2'])) {
                         <select name="job" id="ss">
                             <option value="" disabled selected>Job Name</option>
                             <?php
-                            $sql3 = "SELECT * FROM jobAll_emp_job_view WHERE job_name != ' '";
+                            $sql3 = "SELECT * FROM job";
                             $dropdown2 = mysqli_query($conn, $sql3);
                             if (mysqli_num_rows($dropdown2) > 0) {
 

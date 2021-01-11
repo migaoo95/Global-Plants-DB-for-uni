@@ -106,16 +106,8 @@ error_reporting(E_ERROR | E_PARSE);
                                 // echo "Records added successfully.";
                             } else {
 
-                                echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+                                // echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
                             }
-
-
-                            // Close connection
-                            // mysqli_close($conn);
-
-
-
-
                             ?>
                     </form>
                     <!-- OUTPUT DATA***************************** -->

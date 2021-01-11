@@ -4,7 +4,7 @@ $sql = "SELECT CONCAT_WS(', ', customer.firstName,customer.lastName) AS nameee,c
 FROM shipment 
 INNER JOIN orders ON shipment.shipment_id = orders.order_shippment_id
 INNER JOIN customer ON orders.order_customer_id = customer.customer_id
-INNER JOIN company ON customer.customer_company_id = company.company_id";
+INNER JOIN company ON customer.customer_company_id = company.company_id ORDER BY orders.order_date ASC";
 
 error_reporting(E_ERROR | E_PARSE);
 $order = $_POST['quarter'];
@@ -94,7 +94,7 @@ $comapnies = $_POST['companies'];
 
                         $sql2 = "SELECT ROUND(AVG(order_total),2) AS avgTotal, company.comapnyName FROM orders
                         INNER JOIN customer ON orders.order_customer_id = customer.customer_id
-                        INNER JOIN company ON customer.customer_company_id = company.company_id WHERE company.company_id = $comapnies";
+                        INNER JOIN company ON customer.customer_company_id = company.company_id WHERE company.company_id = $comapnies AND QUARTER(order_date) = $order";
                         $resultt = mysqli_query($conn, $sql2);
                         if (mysqli_num_rows($resultt) > 0) {
                             while ($roww = mysqli_fetch_assoc($resultt)) {
@@ -112,7 +112,7 @@ $comapnies = $_POST['companies'];
                         INNER JOIN orders ON shipment.shipment_id = orders.order_shippment_id
                         INNER JOIN customer ON orders.order_customer_id = customer.customer_id
                         INNER JOIN company ON customer.customer_company_id = company.company_id
-                         WHERE QUARTER(orders.order_date) = $order  $by";
+                         WHERE QUARTER(orders.order_date) = $order  $by ";
                     }
 
                     $result = mysqli_query($conn, $sql);

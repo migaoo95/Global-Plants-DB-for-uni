@@ -75,7 +75,7 @@ $result = mysqli_query($conn, $sql);
 
                             // CREATE VIEW emp_job_alloc_view AS 
                             // SELECT firstName,employee_id,jobAllocation.all_job_id FROM employee INNER JOIN jobAllocation ON employee.employee_id = jobAllocation.all_emp_id
-                            $sql2 = "SELECT * FROM  emp_job_alloc_view  WHERE all_job_id IS NULL";
+                            $sql2 = "SELECT * FROM  emp_job_alloc_view";
                             $dropdown = mysqli_query($conn, $sql2);
 
                             if (mysqli_num_rows($dropdown) > 0) {
@@ -97,21 +97,23 @@ $result = mysqli_query($conn, $sql);
                         <input type="submit" value="Submit / Refresh"></input></br> -->
 
                     </form>
-
+                    <h1>Available jobs </h1>
                     <?php
                     $submit = "INSERT INTO jobTransfer(request_date,descryption,tr_emp_id,tr_job_id) VALUES ('2000-10-10','$note',$emp,$jobid)";
                     if (mysqli_query($conn, $submit)) {
                         // echo "Records added successfully.";
                     } else {
 
-                        echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+                        // echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
                     }
                     $result2 = mysqli_query($conn, $sql2);
 
-                    if (isset($jobs)) {
+                    if (isset($jobs) && $_SESSION['user'] == 'Emp') {
 
 
                         echo "<div style='border:solid; margin-bottom:10px;background-color:#2faabd;'>" . "Thank you " . "<span style='font-weight:bold;'>" . "</span>" . " your application for position " . "<span style='font-weight:bold;'>" . $jobs . "</span>"  . " it have been sent to your employer <br>" . "</div>";
+                    } else if (isset($jobs) && $_SESSION['user'] == 'EmpG') {
+                        echo "<div style='border:solid; margin-bottom:10px;background-color:#2faabd;'>" . "Im Sorry  " . "<span style='font-weight:bold;'>" . " new employees are not allowed to apply  " . "</span></div>";
                     }
                     ?>
                     <!-- Display data  -->

@@ -17,8 +17,8 @@ $delJob = $_POST['delJob'];
 // CREATE PROCEDURE insertJobName(job_name varchar(20),job_descryption varchar(200)) BEGIN INSERT INTO job(job_name,job_descryption)
 if (isset($_POST['jName'])) {
     // VIEW
-    // jobs_admin_view REPLACE job
-    $sqlCreate = "INSERT INTO jobs_admin_view(job_name,job_descryption) VALUES ('$jName', '$jDes')";
+    $sqlCreate = "INSERT INTO jobs_admin_view(job_name,job_descryption)
+    VALUES ('$jName', '$jDes')";
     mysqli_query($conn, $sqlCreate);
 }
 if (isset($_POST['delJob'])) {
@@ -58,7 +58,7 @@ if (isset($_POST['delJob'])) {
                             <option value="remove">Delete Job</option>
                         </select>
                         <div class="show" id="show" style="display:none;">
-                            <h5>New Employee Form</h5>
+                            <h5>Create Job Form</h5>
                             <input type="text" placeholder="Job Name" name="jName">
                             <input type="text" placeholder="Job Descryption" name="jDes">
 
